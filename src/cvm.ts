@@ -1,59 +1,56 @@
-import { CountingConfig } from "./interface";
-
 /**
- * Run the CVM algorithm to count unique words
+ * The solver class for the CVM counting algorithm
  */
-export const countUniqueWords = (config: CountingConfig): number => {
+export class CVM {
+  private readonly bufferSize: number;
 
-  // TODO:
-  return 0;
+  private buffer: string[];
+  private nextIndex: number;
+  private roundNumber: number;
+  private probability: number;
 
-  let {
-    wordsToCount,
-    buffer,
-    nextIndex,
-    roundNumber,
-  } = config;
+  constructor(bufferSize: number) {
+    this.bufferSize = bufferSize;
+    this.buffer = Array(this.bufferSize).fill('');
+    this.nextIndex = 0;
+    this.roundNumber = 0;
+    this.probability = 0.5;
+  }
 
-  for (const w of wordsToCount) {
-    // if it's already in our memory buffer, skip
-    if (buffer.find((b) => b.toLowerCase() === w.toLowerCase())) {
-      continue;
-    }
+  processLine(...words: string[]): void {
+    for (const w of words) {
+      const idxToRemove = this.buffer.findIndex((b) => b.toLowerCase() === w.toLowerCase());
 
-    const nextAvailableIndex = buffer.findIndex((b) => b === '');
+      this.buffer[idxToRemove] = '';
 
-    if (nextAvailableIndex === -1) {
-      let numberOfFlips = 0;
-
-      while (Math.random() >= 0.5) {
-
-        numberOfFlips += 1;
-
-        if (numberOfFlips === roundNumber) {
-          // select a random index in the buffer to clear
-          const randomIndex = Math.floor(Math.random() * buffer.length);
-
-          buffer[randomIndex] = '';
-        }
+      if (Math.random() > this.probability) {
+        this.buffer.push(w);
+        this.nextIndex += 1;
       }
 
-      roundNumber += 1;
+      if (this.getBufferLength() === this.bufferSize) {
+        // bug?
+        this.clearApproxHalfBuffer();
+        this.probability /= 2;
+        this.roundNumber += 1;
 
-      // if tails, skip to next item
-      continue;
-    }
-    else {
-      nextIndex = nextAvailableIndex;
-
-      buffer[nextIndex] = w.toLowerCase();
+        if (this.buffer.length === this.bufferSize) {
+          throw new Error('Buffer size cannot be equal to max size after clear step');
+        }
+      }
     }
   }
 
-  const numberOfWordsInBuffer = buffer.reduce<number>((acc, curr) => curr !== '' ? acc + 1 : acc, 0);
+  getBufferLength() {
+    return this.buffer.reduce((acc, curr) => curr !== '' ? acc + 1 : acc, 0);
+  }
 
-  console.log('num buffer size', numberOfWordsInBuffer);
-  console.log('rounds', roundNumber);
+  clearApproxHalfBuffer(): void {
+    // bug?
+    this.buffer = this.buffer.map((b) => Math.random() > this.probability ? b : '');
+  }
 
-  return numberOfWordsInBuffer / Math.pow(0.5, roundNumber);
-};
+  calculateFinalResult(): number {
+    return this.getBufferLength() / Math.pow(0.5, this.roundNumber);
+  }
+}

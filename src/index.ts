@@ -1,6 +1,6 @@
+import { CVM } from './cvm';
+import { calculateBufferSize } from './util';
 import { getHandleReadLine, getReadStream, getReadline } from './readfile';
-
-import { calculateBufferSize } from './cvm';
 
 const [accuracy, approxSize, confidence, filePath] = process.argv.slice(2);
 
@@ -37,25 +37,26 @@ if (!filePath) {
 const readStream = getReadStream(`./input-files/${filePath}`);
 const rl = getReadline(readStream);
 
-// calculate buffer size derived from the desired output accuracy and confidence
 const bufferSize = calculateBufferSize(+accuracy, +approxSize, +confidence);
 
-console.info(`Using buffer size: ${bufferSize}`);
+console.info(`Using buffer size: ${bufferSize}\n`);
+
+const cvm = new CVM(bufferSize);
 
 // stream handlers
-rl.on('line', getHandleReadLine(bufferSize));
+rl.on('line', getHandleReadLine(cvm));
 
 rl.on('close', () => {
-  console.info('***');
-  console.info('File Reading Complete');
-  console.info('***');
+  console.info('\n*** File Reading Complete ***\n');
+
+  const numberOfDistinctElements = cvm.calculateFinalResult();
+
+  console.info(`\nThe number of distinct elements is approximately: ${numberOfDistinctElements}\n`);
 })
 
 // SIGINT handler to close stream gracefully
 process.on('SIGINT', () => {
   rl.close();
 
-  console.info('***');
-  console.log('SIGINT Received -- Stream Closed');
-  console.info('***');
+  console.log('\n*** SIGINT ***\n');
 });

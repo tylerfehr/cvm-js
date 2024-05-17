@@ -5,7 +5,7 @@ import { getHandleReadLine, getReadStream, getReadline } from './readfile';
 const [accuracy, approxSize, confidence, filePath] = process.argv.slice(2);
 
 if (!accuracy) {
-  console.error('Desired accuracy (ε) must be passed in the first argument and must be between 0 and 1\n');
+  console.error('Desired accuracy (ε) must be passed in the first argument\n');
   console.info('This is how close you want your estimate to be to the true number of distinct elements. A smaller ε means you want a more precise estimate. For example, ε = 0.05 means you want your estimate to be within 5% of the actual value.\n')
 
   process.exit(1);

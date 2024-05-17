@@ -2,6 +2,8 @@
  * Config passed to solve for
  */
 export interface CountingConfig {
-  buffer: any[];
+  wordsToCount: string[];
+  buffer: string[];
   nextIndex: number;
+  roundNumber: number;
 }

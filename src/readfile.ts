@@ -18,7 +18,5 @@ export const getHandleReadLine = (cvm: CVM) => (line: string) => {
   const words = line.split(/\s+/); 
 
   // remove all punctuation that would interfere with unique word count
-  cvm.processLine(
-    ...words.map(stripWordPunctuation)
-  );
+  cvm.processLine(words.map(stripWordPunctuation));
 };

@@ -12,7 +12,7 @@ export class CVM {
     this.probability = 1;
   }
 
-  processLine(...words: string[]): void {
+  processLine(words: string[]): void {
     for (const w of words) {
       const idxToRemove = this.buffer.findIndex((b) => b.toLowerCase() === w.toLowerCase());
 
@@ -35,12 +35,12 @@ export class CVM {
     }
   }
 
-  getBufferLength() {
+  getBufferLength(): number {
     return this.buffer.reduce((acc, curr) => curr !== '' ? acc + 1 : acc, 0);
   }
 
   clearApproxHalfBuffer(): void {
-    this.buffer = this.buffer.map((b) => Math.random() < this.probability ? b : '');
+    this.buffer = this.buffer.map((b) => Math.random() < 0.5 ? b : '');
   }
 
   calculateFinalResult(): number {

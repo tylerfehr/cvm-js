@@ -5,14 +5,12 @@ export class CVM {
   private readonly bufferSize: number;
 
   private buffer: string[];
-  private nextIndex: number;
   private roundNumber: number;
   private probability: number;
 
   constructor(bufferSize: number) {
     this.bufferSize = bufferSize;
     this.buffer = Array(this.bufferSize).fill('');
-    this.nextIndex = 0;
     this.roundNumber = 0;
     this.probability = 0.5;
   }
@@ -21,15 +19,15 @@ export class CVM {
     for (const w of words) {
       const idxToRemove = this.buffer.findIndex((b) => b.toLowerCase() === w.toLowerCase());
 
-      this.buffer[idxToRemove] = '';
+      if (idxToRemove !== -1) {
+        this.buffer[idxToRemove] = '';
+      }
 
       if (Math.random() < this.probability) {
         this.buffer.push(w);
-        this.nextIndex += 1;
       }
 
       if (this.getBufferLength() === this.bufferSize) {
-        // bug?
         this.clearApproxHalfBuffer();
         this.probability /= 2;
         this.roundNumber += 1;

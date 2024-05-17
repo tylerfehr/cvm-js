@@ -1,10 +1,13 @@
 {
   "name": "cvm-js",
   "version": "0.0.1",
-  "description": "An implementation in TypeScript of the novel probabilistic CVM counting algorithm by the University of Toronto",
-  "main": "./src/index.ts",
+  "description": "An implementation in TypeScript of the novel probabilistic CVM counting algorithm",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "calc": "npx --no-install ts-node ./src/index.ts"
+    "calc": "npx --no-install ts-node ./src/index.ts",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
   "author": "Tyler Fehr",
   "license": "MIT",

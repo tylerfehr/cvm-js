@@ -11,7 +11,7 @@ export const getReadline = (readStream: fs.ReadStream) => readline.createInterfa
 export const stripWordPunctuation = (w: string): string => w.replace(/[\p{P}\p{S}]/gu, ''); 
 
 /**
- * Get curried handleReadLine with bufferSize in scope
+ * Get curried handleReadLine with cvm solver in scope
  */
 export const getHandleReadLine = (cvm: CVM) => (line: string) => {
   // line into words

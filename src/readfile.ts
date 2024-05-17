@@ -1,34 +1,17 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as readline from 'readline';
 
-/**
- * Read a file of text, delimited by spaces
- */
-export const readTextFile = (filePath: string): string => {
-  return fs.readFileSync(path.join(filePath)).toString()
-};
+export const getReadStream = (filePath: string): fs.ReadStream => fs.createReadStream(path.join(filePath), 'utf-8');
 
-/**
- * Given a raw text file, extract all the words as an array of strings
- */
-export const extractWords = (rawText: string, delimiter = ' '): string[] => {
-  const punctuationMarks = ['.', ',', ':', ';', '?', '!', '-', '–', '—', '(', ')', '[', ']', '{', '}', '\'', '"', '…'];
+export const getReadline = (readStream: fs.ReadStream) => readline.createInterface({ input: readStream });
 
-  return rawText.split('\n').reduce<string[]>(
-    (acc, r) => {
-      // TODO: this is known ahead of starting computation
-      const row = r.replace('\r', '');
-      const words = row.split(delimiter);
+export const stripWordPunctuation = (w: string): string => w.replace(/[\p{P}\p{S}]/gu, ''); 
 
-      return [
-        ...acc,
-        ...words
-          // remove all ending punctuation that would interfere with unique word count
-          .flatMap((w) => punctuationMarks.some((p) => w.endsWith(p)) ? w.slice(0, w.length - 1) : w)
-          // strip out any final empty chars
-          .filter((w) => !!w),
-      ];
-    },
-    [],
-  );
+export const getHandleReadLine = (bufferSize: number) => (line: string) => {
+  // line into words
+  const words = line.split(/\s+/); 
+
+  // remove all punctuation that would interfere with unique word count
+  const cleanedWords = words.map((word) => word.replace(/[\p{P}\p{S}]/gu, ""));
 };

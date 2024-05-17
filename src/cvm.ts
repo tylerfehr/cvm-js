@@ -23,7 +23,7 @@ export class CVM {
 
       this.buffer[idxToRemove] = '';
 
-      if (Math.random() > this.probability) {
+      if (Math.random() < this.probability) {
         this.buffer.push(w);
         this.nextIndex += 1;
       }
@@ -46,11 +46,10 @@ export class CVM {
   }
 
   clearApproxHalfBuffer(): void {
-    // bug?
-    this.buffer = this.buffer.map((b) => Math.random() > this.probability ? b : '');
+    this.buffer = this.buffer.map((b) => Math.random() < this.probability ? b : '');
   }
 
   calculateFinalResult(): number {
-    return this.getBufferLength() / Math.pow(0.5, this.roundNumber);
+    return this.getBufferLength() / this.probability;
   }
 }

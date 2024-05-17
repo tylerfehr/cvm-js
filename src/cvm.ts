@@ -3,16 +3,13 @@
  */
 export class CVM {
   private readonly bufferSize: number;
-
   private buffer: string[];
-  private roundNumber: number;
   private probability: number;
 
   constructor(bufferSize: number) {
     this.bufferSize = bufferSize;
     this.buffer = Array(this.bufferSize).fill('');
-    this.roundNumber = 0;
-    this.probability = 0.5;
+    this.probability = 1;
   }
 
   processLine(...words: string[]): void {
@@ -30,7 +27,6 @@ export class CVM {
       if (this.getBufferLength() === this.bufferSize) {
         this.clearApproxHalfBuffer();
         this.probability /= 2;
-        this.roundNumber += 1;
 
         if (this.buffer.length === this.bufferSize) {
           throw new Error('Buffer size cannot be equal to max size after clear step');

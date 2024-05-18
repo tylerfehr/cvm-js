@@ -13,12 +13,12 @@
   "author": "Tyler Fehr",
   "license": "MIT",
   "dependencies": {
-    "ts-node": "10.9.2",
-    "typescript": "^5.4.5"
+    "ts-node": "~10.9.2"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
     "globstar": "^1.0.0",
-    "tsx": "^4.10.5"
+    "tsx": "^4.10.5",
+    "typescript": "^5.4.5"
   }
 }

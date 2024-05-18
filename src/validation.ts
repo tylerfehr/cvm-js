@@ -20,9 +20,9 @@ export const validateApproximateSize = (approxSize: any): boolean => {
  * Must be within 0.01 and 1.0 (inclusive)
  */
 export const validateConfidence = (confidence: any): boolean => {
-  const numAccuracy = parseFloat(confidence);
+  const numConfidence = parseFloat(confidence);
 
-  return !isNaN(numAccuracy) && numAccuracy >= 0.01 && numAccuracy <= 1.0;
+  return !isNaN(numConfidence) && numConfidence >= 0.01 && numConfidence <= 1.0;
 };
 
 /**

@@ -40,7 +40,13 @@ export class CVM {
   }
 
   clearApproxHalfBuffer(): void {
-    this.buffer = this.buffer.map((b) => Math.random() < 0.5 ? b : '');
+    this.buffer = this.buffer.map((b) => {
+      if (b === '') {
+        return b;
+      }
+
+      return Math.random() < 0.5 ? b : ''
+    });
   }
 
   calculateFinalResult(): number {

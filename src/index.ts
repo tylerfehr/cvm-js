@@ -26,7 +26,7 @@ if (!confidence) {
 }
 
 if (!filePath) {
-  console.error('File path must be passed in the fourth argument. \n');
+  console.error('File path must be passed in the fourth argument\n');
 
   console.info("This is the name of the file within `input-files`\n")
 
@@ -34,7 +34,7 @@ if (!filePath) {
 }
 
 // initialize streams
-const readStream = getReadStream(`./input-files/${filePath}`);
+const readStream = getReadStream(filePath);
 const rl = getReadline(readStream);
 
 const bufferSize = calculateBufferSize(+accuracy, +approxSize, +confidence);

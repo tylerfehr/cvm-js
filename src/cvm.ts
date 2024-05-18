@@ -28,7 +28,7 @@ export class CVM {
         this.clearApproxHalfBuffer();
         this.probability /= 2;
 
-        if (this.buffer.length === this.bufferSize) {
+        if (this.getBufferLength() === this.bufferSize) {
           throw new Error('Buffer size cannot be equal to max size after clear step');
         }
       }

@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "calc": "npx --no-install ts-node ./src/index.ts",
+    "calc": "npx --no-install ts-node --transpile-only ./src/index.ts",
     "build": "yarn run test && rd /s /q \"dist\" && tsc",
     "prepublishOnly": "npm run build",
     "test": "globstar -- node --import tsx --test \"**/*.spec.ts\""

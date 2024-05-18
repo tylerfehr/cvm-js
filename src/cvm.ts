@@ -3,25 +3,22 @@
  */
 export class CVM {
   private readonly bufferSize: number;
-  private buffer: string[];
+  private buffer: Record<string, true>;
   private probability: number;
 
   constructor(bufferSize: number) {
     this.bufferSize = bufferSize;
-    this.buffer = Array(this.bufferSize).fill('');
+    this.buffer = {};
     this.probability = 1;
   }
 
   processLine(words: string[]): void {
     for (const w of words) {
-      const idxToRemove = this.buffer.findIndex((b) => b.toLowerCase() === w.toLowerCase());
 
-      if (idxToRemove !== -1) {
-        this.buffer[idxToRemove] = '';
-      }
+      delete this.buffer[w.toLowerCase()];
 
       if (Math.random() < this.probability) {
-        this.buffer.push(w);
+        this.buffer[w.toLowerCase()] = true;
       }
 
       if (this.getBufferLength() === this.bufferSize) {
@@ -29,24 +26,20 @@ export class CVM {
         this.probability /= 2;
 
         if (this.getBufferLength() === this.bufferSize) {
-          throw new Error('Buffer size cannot be equal to max size after clear step');
+          throw new Error('Extremely unlikely error -- run again');
         }
       }
     }
   }
 
   getBufferLength(): number {
-    return this.buffer.reduce((acc, curr) => curr !== '' ? acc + 1 : acc, 0);
+    return Object.values(this.buffer).length;
   }
 
   clearApproxHalfBuffer(): void {
-    this.buffer = this.buffer.map((b) => {
-      if (b === '') {
-        return b;
-      }
-
-      return Math.random() < 0.5 ? b : ''
-    });
+    this.buffer = Object.fromEntries(
+      Object.entries(this.buffer).filter(() => Math.random() < 0.5),
+    );
   }
 
   calculateFinalResult(): number {

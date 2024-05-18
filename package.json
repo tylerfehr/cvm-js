@@ -6,8 +6,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "calc": "npx --no-install ts-node ./src/index.ts",
-    "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "build": "yarn run test && rd /s /q \"dist\" && tsc",
+    "prepublishOnly": "npm run build",
+    "test": "npx --no-install ts-node ./src/validation.spec.ts" 
   },
   "author": "Tyler Fehr",
   "license": "MIT",

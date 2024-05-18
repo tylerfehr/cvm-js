@@ -44,7 +44,7 @@ if (!validateFilePath(filePath)) {
 const readStream = getReadStream(filePath);
 const rl = getReadline(readStream);
 
-const bufferSize = calculateBufferSize(+accuracy, +approxSize, +confidence);
+const bufferSize = calculateBufferSize(+accuracy, +confidence, +approxSize);
 
 const cvm = new CVM(bufferSize);
 
@@ -52,10 +52,10 @@ const cvm = new CVM(bufferSize);
 rl.on('line', getHandleReadLine(cvm));
 
 rl.on('close', () => {
-  const numberOfDistinctElements = cvm.calculateFinalResult();
-
-  console.info(numberOfDistinctElements);
-})
+  console.info(
+    cvm.calculateFinalResult()
+  );
+});
 
 // SIGINT handler to close stream gracefully
 process.on('SIGINT', () => {

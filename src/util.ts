@@ -7,5 +7,5 @@ export const calculateBufferSize = (
   confidence: number,
 ): number => Math.ceil(
   (12 / Math.pow(+accuracy, 2))
-    * Math.log((8 * +streamSize) / +confidence)
+    * Math.log2((8 * +streamSize) / +confidence)
 );

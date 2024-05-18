@@ -34,7 +34,6 @@ if (!validateConfidence(confidence)) {
 
 if (!validateFilePath(filePath)) {
   console.error('File path must be passed in the fourth argument\n');
-
   console.info("This is the name of the file within `input-files`\n")
 
   process.exit(1);

@@ -21,7 +21,7 @@ Then run with
 
 For example:
 ```zsh
-yarn run calc .99 32000 .90 hamlet-shakespeare.txt
+yarn run calc .99 32000 .90 ./input-files/hamlet-shakespeare.txt
 ```
 
 ## Note

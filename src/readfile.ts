@@ -3,12 +3,11 @@ import * as path from 'path';
 import * as readline from 'readline';
 
 import { CVM } from './cvm';
+import { stripWordPunctuation } from './util';
 
 export const getReadStream = (filePath: string): fs.ReadStream => fs.createReadStream(path.join(filePath), 'utf-8');
 
 export const getReadline = (readStream: fs.ReadStream) => readline.createInterface({ input: readStream });
-
-export const stripWordPunctuation = (w: string): string => w.replace(/[\p{P}\p{S}]/gu, ''); 
 
 /**
  * Get curried handleReadLine with cvm solver in scope
